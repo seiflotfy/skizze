@@ -8,9 +8,14 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-
-	"utils"
 )
+
+// PanicOnError is a helper function to panic on Error
+func PanicOnError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
 
 // Config stores all configuration parameters for Go
 type Config struct {
@@ -29,16 +34,16 @@ func parseConfigTOML() *Config {
 	configPath := os.Getenv("SKZ_CONFIG")
 	if configPath == "" {
 		path, err := os.Getwd()
-		utils.PanicOnError(err)
+		PanicOnError(err)
 		path, err = filepath.Abs(path)
-		utils.PanicOnError(err)
+		PanicOnError(err)
 		configPath = filepath.Join(path, "src/config/default.toml")
 	}
 	_, err := os.Open(configPath)
-	utils.PanicOnError(err)
+	PanicOnError(err)
 	config = &Config{}
 	if _, err := toml.DecodeFile(configPath, &config); err != nil {
-		utils.PanicOnError(err)
+		PanicOnError(err)
 	}
 	return config
 }
@@ -48,7 +53,7 @@ func GetConfig() *Config {
 	if config == nil {
 		config = parseConfigTOML()
 		usr, err := user.Current()
-		utils.PanicOnError(err)
+		PanicOnError(err)
 		dir := usr.HomeDir
 
 		infoDir := strings.TrimSpace(os.Getenv("SKZ_INFO_DIR"))

@@ -3,8 +3,6 @@ GOPATH=$(CURDIR)/vendor:$(CURDIR)
 all:
 	@GOPATH=$(GOPATH) && \
 	  go build -a -v -ldflags '-w' -o ./bin/skizze ./src/skizze
-	@GOPATH=$(GOPATH) && \
-	  go build -a -v -ldflags '-w' -o ./bin/skizze-cli ./src/skizze-cli
 
 build-dep:
 	@go get github.com/constabulary/gb/...

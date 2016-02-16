@@ -11,9 +11,7 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 
 	"config"
-	"manager"
 	"server"
-	"utils"
 )
 
 var logger = loggo.GetLogger("skizze")
@@ -30,16 +28,12 @@ func main() {
 	//TODO: Add arguments for dataDir and infoDir
 
 	err := os.Setenv("SKIZZE_PORT", strconv.Itoa(int(port)))
-	utils.PanicOnError(err)
+	config.PanicOnError(err)
 
 	logger.Infof("Starting Skizze...")
 	logger.Infof("Using data dir: %s", config.GetConfig().DataDir)
-	//server, err := server.New()
-	//utils.PanicOnError(err)
-	//server.Run()
-	mngr := manager.NewManager()
 	if p, err := strconv.Atoi(os.Getenv("SKIZZE_PORT")); err == nil {
-		server.Run(mngr, uint(p))
+		server.Run(uint(p))
 	}
 }
 
